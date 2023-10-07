@@ -1,4 +1,4 @@
-package org.example.lambda;
+package org.example.lambda.util;
 
 @FunctionalInterface
 //매개변수 T,U,V 3개를 받아 R 리턴
