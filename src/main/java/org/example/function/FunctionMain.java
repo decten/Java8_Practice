@@ -3,6 +3,7 @@ package org.example.function;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import org.example.function.util.BiConsumer;
 import org.example.function.util.Consumer;
 
 public class FunctionMain {
@@ -13,6 +14,12 @@ public class FunctionMain {
             System.out.println(randomSupplier.get());
         }
     }
+    public static void process(List<Integer> inputs, Consumer<Integer> processor){
+        for(Integer input: inputs){
+            processor.accept(input);
+        }
+    }
+
     public static void main(String[] args) {
         /* Supplier */
         Supplier<String> myStringSupplier = () -> "hello supplier";
@@ -32,11 +39,18 @@ public class FunctionMain {
         Consumer<Integer> myIntegerConsumer = (Integer x) ->
             System.out.println("Processing Integer: "+x);
         process(integerInputs,myIntegerConsumer);
+
+        /* BiConsumer */
+        List<Double> doubleInputs = Arrays.asList(4.2,2.3,3.0);
+        BiConsumer<Integer, Double> myBiConsumer =
+            (index, input) ->
+                System.out.println("Processing "+input+" at index " +index);
+        process(doubleInputs, myBiConsumer);
     }
 
-    public static void process(List<Integer> inputs, Consumer<Integer> processor){
-        for(Integer input: inputs){
-            processor.accept(input);
+    public static <T> void process(List<T> inputs, BiConsumer<Integer, T> biConsumer){
+        for (int i = 0; i < inputs.size(); i++) {
+            biConsumer.accept(i, inputs.get(i));
         }
     }
 }
