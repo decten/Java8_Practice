@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import org.example.function.util.BiConsumer;
 import org.example.function.util.Consumer;
-import org.example.function.util.Predicate;
-
+import java.util.function.Predicate;
 public class FunctionMain {
 
     public static void printRandomDoubles(Supplier<Double> randomSupplier,
@@ -59,6 +58,13 @@ public class FunctionMain {
         Predicate<Integer> isPositive = x -> x > 0;
         List<Integer> inputs = Arrays.asList(-9,10,6,-2,5);
         System.out.println("Positive Number: "+filter(inputs,isPositive));
+        System.out.println("Non-Positive Number: "+filter(inputs,isPositive.negate()));
+        System.out.println("Positive Number OR Zero: "
+            +filter(inputs,isPositive.or(x -> x == 0))
+        );
+        System.out.println("Positive Number And Even Number: "
+            +filter(inputs,isPositive.or(x -> x % 2 == 0))
+        );
     }
     public static <T> List<T> filter(List<T> inputs, Predicate<T> condition){
         List<T> output = new ArrayList<>();
