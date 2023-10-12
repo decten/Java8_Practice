@@ -1,10 +1,12 @@
 package org.example.function;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.example.function.util.BiConsumer;
 import org.example.function.util.Consumer;
+import org.example.function.util.Predicate;
 
 public class FunctionMain {
 
@@ -17,6 +19,12 @@ public class FunctionMain {
     public static void process(List<Integer> inputs, Consumer<Integer> processor){
         for(Integer input: inputs){
             processor.accept(input);
+        }
+    }
+
+    public static <T> void process(List<T> inputs, BiConsumer<Integer, T> biConsumer){
+        for (int i = 0; i < inputs.size(); i++) {
+            biConsumer.accept(i, inputs.get(i));
         }
     }
 
@@ -46,11 +54,17 @@ public class FunctionMain {
             (index, input) ->
                 System.out.println("Processing "+input+" at index " +index);
         process(doubleInputs, myBiConsumer);
-    }
 
-    public static <T> void process(List<T> inputs, BiConsumer<Integer, T> biConsumer){
-        for (int i = 0; i < inputs.size(); i++) {
-            biConsumer.accept(i, inputs.get(i));
+        /* Predicate */
+        Predicate<Integer> isPositive = x -> x > 0;
+        List<Integer> inputs = Arrays.asList(-9,10,6,-2,5);
+        System.out.println("Positive Number: "+filter(inputs,isPositive));
+    }
+    public static <T> List<T> filter(List<T> inputs, Predicate<T> condition){
+        List<T> output = new ArrayList<>();
+        for(T input: inputs){
+            if(condition.test(input)) output.add(input);
         }
+        return output;
     }
 }
